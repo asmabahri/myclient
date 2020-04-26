@@ -1,0 +1,18 @@
+sudo: required
+services:
+
+before_install:
+  - docker build -t asma24/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run asma24/react-test npm test -- --coverage
+after_success:
+  - docker build -t asma24/multi-clients ./client
+#login to docker-hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$Docker_ID" --password-stdin
+#push the image
+  - docker push asma24/multi-clients
+
+  
+  
+  
+
